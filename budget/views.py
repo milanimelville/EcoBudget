@@ -4,19 +4,7 @@ from django.db.models import Sum
 from .models import Transaction, Category, EcoScore
 from .forms import TransactionForm
 from .forms import CategoryForm
-from transformers import pipeline
-generator = pipeline("text2text-generation", model="google/flan-t5-small")
 from django.shortcuts import get_object_or_404
-
-def sustainability_tip():
-    result = generator(
-        "One practical eco-friendly budgeting tip:",
-        max_new_tokens=30,  
-        num_return_sequences=1,
-        do_sample=True,
-        temperature=0.7       
-    )
-    return result[0]["generated_text"]
 
 
 @login_required
@@ -27,13 +15,11 @@ def dashboard(request):
     eco_spent = all_transactions.filter(category__eco_friendly=True).aggregate(Sum('amount'))['amount__sum'] or 0
     non_eco_spent = total_spent - eco_spent
 
-    tip = sustainability_tip()
     context = {
         'transactions': transactions,   
         'total_spent': total_spent,
         'eco_spent': eco_spent,
         'non_eco_spent': non_eco_spent,
-        'tip': tip,
     }
     return render(request, 'budget/dashboard.html', context)
 
