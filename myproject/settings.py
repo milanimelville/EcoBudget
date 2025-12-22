@@ -9,7 +9,7 @@ SECRET_KEY = os.environ.get('DJANGO_SECRET_KEY')
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = False
 
-ALLOWED_HOSTS = ['https://ecobudget.onrender.com', 'localhost']
+ALLOWED_HOSTS = ['https://ecobudget.onrender.com', 'localhost', '127.0.0.1']
 
 
 INSTALLED_APPS = [
